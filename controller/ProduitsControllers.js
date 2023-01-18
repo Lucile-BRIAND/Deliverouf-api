@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-var { Todos } = require('../models/todoModel');
+var { Commande } = require('../models/commandeModel');
 var ObjectID = require( 'mongoose'). Types.ObjectId;
  
 exports.index = (req, res ) => {
-  Todos.find((err, docs) => {
+    Commande.find((err, docs) => {
     if (!err) {
       res.send(docs)
     } else {
@@ -18,9 +18,14 @@ exports.searchById = (req, res) => {
 }
  
 exports.insert = (req, res ) => {
-  const todoItem = req.body.todo;
-  const newTodos = new Todos({todo: todoItem});
-  newTodos.save((err, docs) => {
+    const restaurant = req.body.restaurant;
+    const prixCommande = req.body.prixCommande;
+    const frais = req.body.frais;
+    const prixTot = req.body.prixTot;
+    const produits = req.body.produits;
+    const numCommande= req.body.numCommande;
+  const newResto = new Commande({restaurant: restaurant, prixCommande: prixCommande, frais: frais, prixTot: prixTot, produits: produits, numCommande: numCommande});
+newResto.save((err, docs) => {
     if (!err) {
       res.status(201).send(docs)
     } else {
@@ -37,12 +42,12 @@ exports.update = (req, res) => {
     return res.send(400).send(`No record with given id: ${id}`)
   }
  
-  const todoItem = req.body.todo;
-  const newTodo = {
+  const villeItem = req.body.ville;
+  const newResto = {
     todo: todoItem
   };
  
-  Todos.findByIdAndUpdate(id, {$set: newTodo},{new: true},(err,docs )=>{
+Commande.findByIdAndUpdate(id, {$set: newResto},{new: true},(err,docs )=>{
     if(!err){
       res.status(200).send(docs)
     } else {
@@ -57,10 +62,10 @@ exports.delete = (req, res ) => {
     return res.send(400).send(`No record with given id: ${id}`)
   }
  
-  Todos.findByIdAndRemove(id, (err, docs) => {
+Commande.findByIdAndRemove(id, (err, docs) => {
     const result = {
       data: docs,
-      message: 'Todo has been removed successfully.',
+      message: 'Ville has been removed successfully.',
       status: 200,
     }
  

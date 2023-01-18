@@ -5,7 +5,11 @@ const bodyParser = require('body-parser')
 const cors = require('cors');
  
 const PORT = process.env.PORT || 6666 ;
-const todoRoutes = require('./routes/todo');
+const restoRoute = require('./routes/restoRoutes');
+const commandeRoute = require('./routes/commandeRoute');
+const produitsRoute = require('./routes/produitsRoute');
+
+
  
 // database connection
 require('./config/database');
@@ -14,7 +18,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
  
 // routes
-app.use('/api/todos', todoRoutes);
+app.use('/api/resto', restoRoute);
+app.use('/api/commande', commandeRoute);
+app.use('/api/produits', produitsRoute);
  
 // server running status
 app.listen(PORT, () => {
